@@ -1,8 +1,10 @@
 package org.sid.app.services;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.sid.app.dao.DefenseRepository;
+import org.sid.app.dto.DefenseDto;
 import org.sid.app.entities.Defense;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,27 @@ public class DefenseService {
 		this.defenseRepository = defenseRepository;
 	}
 
-	public void add(Defense defense) {
-		defenseRepository.save(defense);
+	public DefenseDto add(Defense defense) {
+		return mapToDto(defenseRepository.save(defense));
 	}
 
-	public void delete(Defense defense) {
-		defenseRepository.delete(defense);
+	public void deleteById(Long defenseId) {
+		defenseRepository.deleteById(defenseId);
 	}
 
-	public Defense findById(Long defenseId) {
-		Optional<Defense> defense = defenseRepository.findById(defenseId);
-		if (defense.isPresent()) {
-			return defense.get();
+	public DefenseDto findById(Long defenseId) {
+		return defenseRepository.findById(defenseId).map(DefenseService::mapToDto).orElse(null);
+	}
+
+	public List<DefenseDto> findAll() {
+		return defenseRepository.findAll().stream().map(DefenseService::mapToDto).collect(Collectors.toList());
+	}
+
+	public static DefenseDto mapToDto(Defense defense) {
+		if (defense != null) {
+			return new DefenseDto(defense.getDefenseId(), defense.getDate(), defense.getClassroom(),
+					defense.getJuries().stream().map(TeacherService::mapToDto).collect(Collectors.toSet()),
+					StudentService.mapToDto(defense.getStudent()));
 		}
 		return null;
 	}

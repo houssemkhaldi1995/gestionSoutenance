@@ -1,8 +1,10 @@
 package org.sid.app.services;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.sid.app.dao.SpecialityRepository;
+import org.sid.app.dto.SpecialityDto;
 import org.sid.app.entities.Speciality;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,26 @@ public class SpecialityService {
 		this.specialityRepository = specialityRepository;
 	}
 
-	public void add(Speciality speciality) {
-		specialityRepository.save(speciality);
+	public SpecialityDto add(Speciality speciality) {
+		return mapToDto(specialityRepository.save(speciality));
 	}
 
-	public void delete(Speciality speciality) {
-		specialityRepository.delete(speciality);
+	public void deleteById(Long specialityId) {
+		specialityRepository.deleteById(specialityId);
 	}
 
-	public Speciality findById(Long specialityId) {
-		Optional<Speciality> speciality = specialityRepository.findById(specialityId);
-		if (speciality.isPresent()) {
-			return speciality.get();
+	public SpecialityDto findById(Long specialityId) {
+		return specialityRepository.findById(specialityId).map(SpecialityService::mapToDto).orElse(null);
+	}
+
+	public List<SpecialityDto> findAll() {
+		return specialityRepository.findAll().stream().map(SpecialityService::mapToDto).collect(Collectors.toList());
+	}
+
+	public static SpecialityDto mapToDto(Speciality speciality) {
+		if (speciality != null) {
+			return new SpecialityDto(speciality.getSpecialityId(), speciality.getName(),
+					TeacherService.mapToDto(speciality.getDepartmentHead()));
 		}
 		return null;
 	}

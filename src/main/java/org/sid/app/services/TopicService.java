@@ -1,8 +1,10 @@
 package org.sid.app.services;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.sid.app.dao.TopicRepository;
+import org.sid.app.dto.TopicDto;
 import org.sid.app.entities.Topic;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,26 @@ public class TopicService {
 		this.topicRepository = topicRepository;
 	}
 
-	public void add(Topic topic) {
-		topicRepository.save(topic);
+	public TopicDto add(Topic topic) {
+		return mapToDto(topicRepository.save(topic));
 	}
 
-	public void delete(Topic topic) {
-		topicRepository.delete(topic);
+	public void deleteById(Long topicId) {
+		topicRepository.deleteById(topicId);
 	}
 
-	public Topic findById(Long topicId) {
-		Optional<Topic> topic = topicRepository.findById(topicId);
-		if (topic.isPresent()) {
-			return topic.get();
+	public TopicDto findById(Long topicId) {
+		return topicRepository.findById(topicId).map(TopicService::mapToDto).orElse(null);
+	}
+
+	public List<TopicDto> findAll() {
+		return topicRepository.findAll().stream().map(TopicService::mapToDto).collect(Collectors.toList());
+	}
+
+	public static TopicDto mapToDto(Topic topic) {
+		if (topic != null) {
+			return new TopicDto(topic.getTopicId(), topic.getTitle(), topic.getDomain(), topic.getDuration(),
+					CompanyService.mapToDto(topic.getCompany()));
 		}
 		return null;
 	}

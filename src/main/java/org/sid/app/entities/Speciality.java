@@ -9,45 +9,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
-@SuppressWarnings("serial")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Speciality implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
 	private Long specialityId;
-
 	private String name;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Teacher departmentHead;
-
-	public Speciality() {
-		super();
-	}
-
-	public Long getSpecialityId() {
-		return specialityId;
-	}
-
-	public void setSpecialityId(Long specialityId) {
-		this.specialityId = specialityId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Teacher getDepartmentHead() {
-		return departmentHead;
-	}
-
-	public void setDepartmentHead(Teacher departmentHead) {
-		this.departmentHead = departmentHead;
-	}
 
 }

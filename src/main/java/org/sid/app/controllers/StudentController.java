@@ -1,14 +1,20 @@
 package org.sid.app.controllers;
 
+import java.util.List;
+
+import org.sid.app.dto.StudentDto;
 import org.sid.app.entities.Student;
 import org.sid.app.services.StudentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
 	private final StudentService studentService;
@@ -18,18 +24,23 @@ public class StudentController {
 		this.studentService = studentService;
 	}
 
-	@PostMapping("/addstudent/{student}")
-	public void add(@PathVariable Student student) {
-		studentService.add(student);
+	@PostMapping("/addstudent")
+	public StudentDto add(@RequestBody Student student) {
+		return studentService.add(student);
 	}
 
-	@DeleteMapping("/deletestudent/{student}")
-	public void delete(@PathVariable Student student) {
-		studentService.delete(student);
+	@DeleteMapping("/deletestudent/{studentId}")
+	public void deleteById(@PathVariable Long studentId) {
+		studentService.deleteById(studentId);
 	}
 
 	@GetMapping("/getstudent/{studentId}")
-	public Student findById(@PathVariable Long studentId) {
+	public StudentDto findById(@PathVariable Long studentId) {
 		return studentService.findById(studentId);
+	}
+
+	@GetMapping("/getallstudents")
+	public List<StudentDto> findAll() {
+		return studentService.findAll();
 	}
 }
