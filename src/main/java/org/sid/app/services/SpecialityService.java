@@ -18,8 +18,9 @@ public class SpecialityService {
 		this.specialityRepository = specialityRepository;
 	}
 
-	public SpecialityDto add(Speciality speciality) {
-		return mapToDto(specialityRepository.save(speciality));
+	public SpecialityDto add(SpecialityDto specialityDto) {
+		return mapToDto(specialityRepository.save(new Speciality(specialityDto.getSpecialityId(),
+				specialityDto.getName(), TeacherService.mapToEntity(specialityDto.getDepartmentHead()))));
 	}
 
 	public void deleteById(Long specialityId) {
@@ -38,6 +39,14 @@ public class SpecialityService {
 		if (speciality != null) {
 			return new SpecialityDto(speciality.getSpecialityId(), speciality.getName(),
 					TeacherService.mapToDto(speciality.getDepartmentHead()));
+		}
+		return null;
+	}
+
+	public static Speciality mapToEntity(SpecialityDto specialityDto) {
+		if (specialityDto != null) {
+			return new Speciality(specialityDto.getSpecialityId(), specialityDto.getName(),
+					TeacherService.mapToEntity(specialityDto.getDepartmentHead()));
 		}
 		return null;
 	}

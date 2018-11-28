@@ -3,7 +3,6 @@ package org.sid.app.controllers;
 import java.util.List;
 
 import org.sid.app.dto.StudentDto;
-import org.sid.app.entities.Student;
 import org.sid.app.services.StudentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class StudentController {
 	}
 
 	@PostMapping("/addstudent")
-	public StudentDto add(@RequestBody Student student) {
-		return studentService.add(student);
+	public StudentDto add(@RequestBody StudentDto studentDto) {
+		return studentService.add(studentDto);
 	}
 
 	@DeleteMapping("/deletestudent/{studentId}")

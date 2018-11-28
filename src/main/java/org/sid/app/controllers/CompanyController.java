@@ -3,7 +3,6 @@ package org.sid.app.controllers;
 import java.util.List;
 
 import org.sid.app.dto.CompanyDto;
-import org.sid.app.entities.Company;
 import org.sid.app.services.CompanyService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class CompanyController {
 	}
 
 	@PostMapping("/addcompany")
-	public CompanyDto add(@RequestBody Company company) {
-		return companyService.add(company);
+	public CompanyDto add(@RequestBody CompanyDto companyDto) {
+		return companyService.add(companyDto);
 	}
 
 	@DeleteMapping("/deletecompany/{companyId}")

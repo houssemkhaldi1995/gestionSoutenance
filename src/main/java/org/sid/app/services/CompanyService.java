@@ -18,8 +18,10 @@ public class CompanyService {
 		this.companyRepository = companyRepository;
 	}
 
-	public CompanyDto add(Company company) {
-		return mapToDto(companyRepository.save(company));
+	public CompanyDto add(CompanyDto companyDto) {
+		return mapToDto(companyRepository.save(new Company(companyDto.getCompanyId(), companyDto.getName(),
+				companyDto.getAddress(), companyDto.getEmail(), companyDto.getCountry(), companyDto.getCity(),
+				companyDto.getZip(), companyDto.getTel())));
 	}
 
 	public void deleteById(Long companyId) {
@@ -41,4 +43,14 @@ public class CompanyService {
 		}
 		return null;
 	}
+
+	public static Company mapToEntity(CompanyDto companyDto) {
+		if (companyDto != null) {
+			return new Company(companyDto.getCompanyId(), companyDto.getName(), companyDto.getAddress(),
+					companyDto.getEmail(), companyDto.getCountry(), companyDto.getCity(), companyDto.getZip(),
+					companyDto.getTel());
+		}
+		return null;
+	}
+
 }

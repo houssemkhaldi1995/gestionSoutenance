@@ -18,8 +18,10 @@ public class TeacherService {
 		this.teacherRepository = teacherRepository;
 	}
 
-	public TeacherDto add(Teacher teacher) {
-		return mapToDto(teacherRepository.save(teacher));
+	public TeacherDto add(TeacherDto teacherDto) {
+		return mapToDto(teacherRepository.save(new Teacher(teacherDto.getTeacherId(), teacherDto.getFirstName(),
+				teacherDto.getLastName(), teacherDto.getAge(), teacherDto.getEmail(), teacherDto.getTel(),
+				teacherDto.getCountry(), teacherDto.getCity(), teacherDto.getZip())));
 	}
 
 	public void deleteById(Long teacherId) {
@@ -39,6 +41,15 @@ public class TeacherService {
 			return new TeacherDto(teacher.getTeacherId(), teacher.getFirstName(), teacher.getLastName(),
 					teacher.getAge(), teacher.getEmail(), teacher.getTel(), teacher.getCountry(), teacher.getCity(),
 					teacher.getZip());
+		}
+		return null;
+	}
+
+	public static Teacher mapToEntity(TeacherDto teacherDto) {
+		if (teacherDto != null) {
+			return new Teacher(teacherDto.getTeacherId(), teacherDto.getFirstName(), teacherDto.getLastName(),
+					teacherDto.getAge(), teacherDto.getEmail(), teacherDto.getTel(), teacherDto.getCountry(),
+					teacherDto.getCity(), teacherDto.getZip());
 		}
 		return null;
 	}

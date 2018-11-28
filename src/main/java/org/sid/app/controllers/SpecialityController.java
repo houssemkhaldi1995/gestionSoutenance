@@ -3,7 +3,6 @@ package org.sid.app.controllers;
 import java.util.List;
 
 import org.sid.app.dto.SpecialityDto;
-import org.sid.app.entities.Speciality;
 import org.sid.app.services.SpecialityService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class SpecialityController {
 	}
 
 	@PostMapping("/addspeciality")
-	public SpecialityDto add(@RequestBody Speciality speciality) {
-		return specialityService.add(speciality);
+	public SpecialityDto add(@RequestBody SpecialityDto specialityDto) {
+		return specialityService.add(specialityDto);
 	}
 
 	@DeleteMapping("/deletespeciality/{specialityId}")

@@ -3,7 +3,6 @@ package org.sid.app.controllers;
 import java.util.List;
 
 import org.sid.app.dto.TopicDto;
-import org.sid.app.entities.Topic;
 import org.sid.app.services.TopicService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class TopicController {
 	}
 
 	@PostMapping("/addtopic")
-	public TopicDto add(@RequestBody Topic topic) {
-		return topicService.add(topic);
+	public TopicDto add(@RequestBody TopicDto topicDto) {
+		return topicService.add(topicDto);
 	}
 
 	@DeleteMapping("/deletetopic/{topicId}")

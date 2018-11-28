@@ -3,7 +3,6 @@ package org.sid.app.controllers;
 import java.util.List;
 
 import org.sid.app.dto.DefenseDto;
-import org.sid.app.entities.Defense;
 import org.sid.app.services.DefenseService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class DefenseController {
 	}
 
 	@PostMapping("/adddefense")
-	public DefenseDto add(@RequestBody Defense defense) {
-		return defenseService.add(defense);
+	public DefenseDto add(@RequestBody DefenseDto defenseDto) {
+		return defenseService.add(defenseDto);
 	}
 
 	@DeleteMapping("/deletedefense/{defenseId}")

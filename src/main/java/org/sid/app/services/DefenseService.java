@@ -18,8 +18,11 @@ public class DefenseService {
 		this.defenseRepository = defenseRepository;
 	}
 
-	public DefenseDto add(Defense defense) {
-		return mapToDto(defenseRepository.save(defense));
+	public DefenseDto add(DefenseDto defenseDto) {
+		return mapToDto(defenseRepository
+				.save(new Defense(defenseDto.getDefenseId(), defenseDto.getDate(), defenseDto.getClassroom(),
+						defenseDto.getJuries().stream().map(TeacherService::mapToEntity).collect(Collectors.toSet()),
+						StudentService.mapToEntity(defenseDto.getStudent()))));
 	}
 
 	public void deleteById(Long defenseId) {
@@ -39,6 +42,15 @@ public class DefenseService {
 			return new DefenseDto(defense.getDefenseId(), defense.getDate(), defense.getClassroom(),
 					defense.getJuries().stream().map(TeacherService::mapToDto).collect(Collectors.toSet()),
 					StudentService.mapToDto(defense.getStudent()));
+		}
+		return null;
+	}
+
+	public static Defense mapToEntity(DefenseDto defenseDto) {
+		if (defenseDto != null) {
+			return new Defense(defenseDto.getDefenseId(), defenseDto.getDate(), defenseDto.getClassroom(),
+					defenseDto.getJuries().stream().map(TeacherService::mapToEntity).collect(Collectors.toSet()),
+					StudentService.mapToEntity(defenseDto.getStudent()));
 		}
 		return null;
 	}
